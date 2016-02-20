@@ -134,8 +134,6 @@ static int init_decoder(int32_t fmtp[12]) {
     int sample_size = fmtp[3];
     if (sample_size != 16)
         die("only 16-bit samples supported!");
-        
-    fprintf(stderr, "Starting Stream\n");
 
     alac = alac_create(sample_size, 2);
     if (!alac)
@@ -155,7 +153,6 @@ static int init_decoder(int32_t fmtp[12]) {
     alac->setinfo_8a_rate = fmtp[11];
     alac_allocate_buffers(alac);
     
-    fprintf(stderr, "Ending Stream\n");
     return 0;
 }
 
