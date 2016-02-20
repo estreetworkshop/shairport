@@ -10,6 +10,7 @@
 
 SCRIPT=/usr/local/bin/shairport
 RUNAS=root
+NAME="Raspberry PI Airplay"
 
 PIDFILE=/var/run/shairport.pid
 LOGFILE=/var/log/shairport.log
@@ -20,7 +21,7 @@ start() {
     return 1
   fi
   echo 'Starting service…' >&2
-  local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
+  local CMD="$SCRIPT -a $NAME &> \"$LOGFILE\" & echo \$!"
   su -c "$CMD" $RUNAS > "$PIDFILE"
   echo 'Service started' >&2
 }
