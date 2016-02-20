@@ -57,6 +57,8 @@ static int sampling_rate, frame_size;
 // maximal resampling shift - conservative
 #define OUTFRAME_BYTES(frame_size) (4*(frame_size+3))
 
+#define DIRRELAY "/var/relay/shairplay"
+
 static pthread_t player_thread;
 static int please_stop;
 
@@ -190,6 +192,7 @@ static void free_buffer(void) {
 }
 
 void player_put_packet(seq_t seqno, uint8_t *data, int len) {
+    struct stat st = {0};
     abuf_t *abuf = 0;
     int16_t buf_fill;
 
@@ -223,6 +226,11 @@ void player_put_packet(seq_t seqno, uint8_t *data, int len) {
     pthread_mutex_lock(&ab_mutex);
     if (ab_buffering && buf_fill >= config.buffer_start_fill) {
         debug(1, "buffering over. starting play\n");
+
+	if (stat(DIRRELAY, &st) == -1)
+	{
+		mkdir(DIRRELAY, 0777);
+	}        
         ab_buffering = 0;
         bf_est_reset(buf_fill);
     }
