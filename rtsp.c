@@ -53,6 +53,8 @@
 #define INETx_ADDRSTRLEN INET_ADDRSTRLEN
 #endif
 
+#define DIRRELAY "/var/relay/shairplay"
+
 // only one thread is allowed to use the player at once.
 // it monitors the request variable (at least when interrupted)
 static pthread_mutex_t playing_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -779,6 +781,7 @@ authenticate:
 }
 
 static void *rtsp_conversation_thread_func(void *pconn) {
+    struct stat st2 = {0};
     // SIGUSR1 is used to interrupt this thread if blocked for read
     sigset_t set;
     sigemptyset(&set);
@@ -817,6 +820,12 @@ respond:
     }
 
     debug(1, "closing RTSP connection\n");
+
+	if (stat(DIRRELAY, &st2) != -1)
+	{
+		rmdir(DIRRELAY);
+	}
+	
     if (conn->fd > 0)
         close(conn->fd);
     if (rtsp_playing()) {
