@@ -8,7 +8,7 @@
 # Description:       Shairport
 ### END INIT INFO
 
-SCRIPT=/usr/local/bin/shareport
+SCRIPT=/usr/local/bin/shairport
 RUNAS=root
 
 PIDFILE=/var/run/shairport.pid
