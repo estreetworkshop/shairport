@@ -40,6 +40,7 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <openssl/md5.h>
+#include "sys/stat.h"
 
 #include "common.h"
 #include "player.h"
